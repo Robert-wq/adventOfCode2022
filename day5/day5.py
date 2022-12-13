@@ -48,26 +48,48 @@ for j in stacks:
 
 print("\n")
 
+
+def moveOneAtATime(line):
+    splitLine = line.split()
+
+    #Removes the needed numbers from the split line
+    #1 is subtracted here due to the zero based index of the stack
+    amountToMove = int(splitLine[1])
+    columnToRemoveFrom = int(splitLine[3]) - 1
+    columnToAddTo = int(splitLine[5]) - 1
+
+    #pops each number off the top of the stack and adds it to the new stack
+    for i in range(amountToMove):
+        item = stacks[columnToRemoveFrom].pop()
+        stacks[columnToAddTo].push(item)
+
+def moveMultiple(line):
+    #push the creates to a temporary stack
+    #pop the creates back onto the new stack
+    splitLine = line.split()
+
+    #Removes the needed numbers from the split line
+    #1 is subtracted here due to the zero based index of the stack
+    amountToMove = int(splitLine[1])
+    columnToRemoveFrom = int(splitLine[3]) - 1
+    columnToAddTo = int(splitLine[5]) - 1
+
+    tempStack = Stack()
+    for i in range(amountToMove):
+        item = stacks[columnToRemoveFrom].pop()
+        tempStack.push(item)
+    
+    for i in range(amountToMove):
+        item = tempStack.pop()
+        stacks[columnToAddTo].push(item)
+
 with open("input.txt", 'r') as f:
     #Allows for the counting of lines within the file
     lineCounter = 0
     for line in f:
         if(lineCounter > 9):
-            splitLine = line.split()
-
-            #Removes the needed numbers from the split line
-            #1 is subtracted here due to the zero based index of the stack
-            amountToMove = int(splitLine[1])
-            columnToRemoveFrom = int(splitLine[3]) - 1
-            columnToAddTo = int(splitLine[5]) - 1
-
-            #pops each number off the top of the stack and adds it to the new stack
-            for i in range(amountToMove):
-                item = stacks[columnToRemoveFrom].pop()
-                stacks[columnToAddTo].push(item)
-
-
-         
+            #moveOneAtATime(line)
+            moveMultiple(line)
         lineCounter += 1
         
 for j in stacks:
